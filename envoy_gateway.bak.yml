@@ -1,0 +1,64 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod-gateway-issuer
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"gateway.networking.k8s.io/v1","kind":"Gateway","metadata":{"annotations":{"cert-manager.io/cluster-issuer":"letsencrypt-prod-gateway-issuer"},"labels":{"app.kubernetes.io/instance":"gatway-api"},"name":"gateway","namespace":"default","resourceVersion":"9976340"},"spec":{"gatewayClassName":"gatewayclass","listeners":[{"allowedRoutes":{"namespaces":{"from":"All"}},"name":"http","port":80,"protocol":"HTTP"},{"allowedRoutes":{"namespaces":{"from":"All"}},"hostname":"app.mk8-cluster.linuz.ir","name":"app-https","port":443,"protocol":"HTTPS","tls":{"certificateRefs":[{"group":"","kind":"Secret","name":"app-tls"}],"mode":"Terminate"}},{"allowedRoutes":{"namespaces":{"from":"All"}},"hostname":"mahdi.mk8-cluster.linuz.ir","name":"mahdi-https","port":443,"protocol":"HTTPS","tls":{"certificateRefs":[{"group":"","kind":"Secret","name":"mahdi-tls"}],"mode":"Terminate"}}]}}
+  creationTimestamp: "2024-06-01T07:29:15Z"
+  generation: 2
+  labels:
+    app.kubernetes.io/instance: gatway-api
+  name: gateway
+  namespace: default
+  resourceVersion: "9978251"
+  uid: e00d4a45-d166-46fd-a0b9-125e81346f27
+spec:
+  gatewayClassName: gatewayclass
+  listeners:
+  - allowedRoutes:
+      namespaces:
+        from: All
+    name: http
+    port: 80
+    protocol: HTTP
+  - allowedRoutes:
+      namespaces:
+        from: All
+    hostname: app.mk8-cluster.linuz.ir
+    name: app-https
+    port: 443
+    protocol: HTTPS
+    tls:
+      certificateRefs:
+      - group: ""
+        kind: Secret
+        name: app-tls
+      mode: Terminate
+  - allowedRoutes:
+      namespaces:
+        from: All
+    hostname: mahdi.mk8-cluster.linuz.ir
+    name: mahdi-https
+    port: 443
+    protocol: HTTPS
+    tls:
+      certificateRefs:
+      - group: ""
+        kind: Secret
+        name: mahdi-tls
+      mode: Terminate
+  - allowedRoutes:
+      namespaces:
+        from: All
+    hostname: rbt-dashboard.mk8-cluster.linuz.ir
+    name: rbt-dashboard
+    port: 443
+    protocol: HTTPS
+    tls:
+      certificateRefs:
+      - group: ""
+        kind: Secret
+        name: dashboard-tls
+      mode: Terminate
+

@@ -1,0 +1,58 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod-gateway-issuer
+  resourceVersion: "9976340"
+  labels:
+    app.kubernetes.io/instance: gatway-api
+  name: gateway
+  namespace: default
+spec:
+  gatewayClassName: gatewayclass
+  listeners:
+  - allowedRoutes:
+      namespaces:
+        from: All
+    name: http
+    port: 80
+    protocol: HTTP
+  - allowedRoutes:
+      namespaces:
+        from: All
+    hostname: app.mk8-cluster.linuz.ir
+    name: app-https
+    port: 443
+    protocol: HTTPS
+    tls:
+      certificateRefs:
+      - group: ""
+        kind: Secret
+        name: app-tls
+      mode: Terminate
+  - allowedRoutes:
+      namespaces:
+        from: All
+    hostname: mahdi.mk8-cluster.linuz.ir
+    name: mahdi-https
+    port: 443
+    protocol: HTTPS
+    tls:
+      certificateRefs:
+      - group: ""
+        kind: Secret
+        name: mahdi-tls
+      mode: Terminate
+  - allowedRoutes:
+      namespaces:
+        from: All
+    hostname: rbt-dashboard.mk8-cluster.linuz.ir
+    name: rbt-dashboard
+    port: 15672
+    protocol: HTTPS
+    tls:
+      certificateRefs:
+        - group: ""
+          kind: Secret
+          name: rbt-dashboard-tls
+      mode: Terminate
